@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const links = [
-    { name: "Dashboard", path: "/dashboard" },
+    { name: "Dashboard", path: "/" },
     { name: "Jobs", path: "/jobs" },
     { name: "Add Job", path: "/add-job" },
     { name: "Analytics", path: "/analytics" },
@@ -10,7 +10,8 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 bg-slate-900 text-white min-h-screen p-5">
+    <aside className="w-65 bg-slate-900 text-white min-h-screen p-5">
+      <div className="position fixed w-50">
       <h1 className="text-2xl font-bold mb-8">
         Job Tracker
       </h1>
@@ -26,6 +27,7 @@ const Sidebar = () => {
           </NavLink>
         ))}
       </nav>
+      </div>
     </aside>
   );
 };
