@@ -1,13 +1,39 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
 import JobCard from "../components/JobCard";
-import jobsData from "../data/jobs";
+import api from "../api/axios";
+
 
 const Jobs = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [jobs, setJobs] = useState([])
 
-  const filteredJobs = jobsData.filter((job) => {
+  useEffect(()=>{
+    fetchJobs()
+  },[])
+
+  const fetchJobs = async () =>{
+    try{
+      const res = await api.get("/jobs")
+      setJobs(res.data.data)
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+  const handleDelete = async (id)=>{
+    try{
+      await api.delete(`/jobs/${id}`)
+      fetchJobs()
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+  const filteredJobs = jobs.filter((job) => {
     const matchesSearch =
       job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
       job.position.toLowerCase().includes(searchTerm.toLowerCase());
@@ -49,11 +75,13 @@ const Jobs = () => {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             {filteredJobs.map((job) => (
               <JobCard
-                key={job.id}
+                key={job._id}
                 company={job.company}
                 position={job.position}
                 status={job.status}
                 location={job.location}
+                job={job}
+                onDelete={handleDelete}
               />
             ))}
           </div>

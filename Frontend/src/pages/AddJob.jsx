@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState,useEffect} from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
-import jobsData from "../data/jobs";
+import api from "../api/axios";
+import { useNavigate, useParams } from "react-router-dom";
+import JobCard from "../components/JobCard";
 
 const AddJob = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const [formData, setFormData] = useState({
     company: "",
     position: "",
     status: "",
     location: "",
+    notes: "",
   });
 
   const handleChange = (e) => {
@@ -17,22 +23,48 @@ const AddJob = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (id) {
+      fetchJob();
+    }
+  }, [id]);
+
+  const fetchJob = async () => {
+    try {
+      const res = await api.get(`/jobs/${id}`);
+      setFormData({
+        company: res.data.data.company,
+        position: res.data.data.position,
+        status: res.data.data.status,
+        location: res.data.data.location,
+        notes: res.data.data.notes,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("New Job Added!")
-    console.log("Job Submitted:", formData);
-    setFormData({
-      company: "",
-      position: "",
-      status: "",
-      location: "",
-    });
+    try {
+      if (id) {
+        await api.put(`/jobs/${id}`, formData);
+        alert("Job Updated Successfully");
+      } else {
+        await api.post("/jobs", formData);
+        alert("Job Added Successfully");
+      }
+      navigate("/jobs");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to add Job");
+    }
   };
 
   return (
     <DashboardLayout>
       <div className='max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md'>
-        <h1 className='text-3xl font-bold mb-6'>Add New Job</h1>
+        <h1 className='text-3xl font-bold mb-6'>{id ? "Edit Job": "Add New Job"}</h1>
 
         <form className='space-y-5' onSubmit={handleSubmit}>
           {/* Company */}
@@ -114,7 +146,7 @@ const AddJob = () => {
           <button
             type='submit'
             className='bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition'>
-            Add Job
+            {id ? "Update": "Add Job"}
           </button>
         </form>
       </div>

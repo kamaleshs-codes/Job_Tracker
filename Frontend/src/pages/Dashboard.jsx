@@ -1,8 +1,26 @@
 import DashboardLayout from "../layouts/DashboardLayout";
 import StatCard from "../components/StatCard";
-import jobs from "../data/jobs";
+import api from "../api/axios";
+import { useEffect, useState } from "react";
+
 
 const Dashboard = () => {
+  const [jobs, setJobs] = useState([])
+
+  useEffect(()=>{
+    fetchJobs()
+  },[])
+
+  const fetchJobs = async ()=>{
+    try{
+      const res = await api.get('/jobs')
+      setJobs(res.data.data)
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
   const totalJobs = jobs.length;
 
   const pendingJobs = jobs.filter((job) => job.status === "Pending").length;

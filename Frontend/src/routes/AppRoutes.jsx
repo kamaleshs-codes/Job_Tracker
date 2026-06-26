@@ -13,8 +13,9 @@ function AppRoutes() {
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/' element={<Dashboard />} />
-      <Route path='/jobs' element={<Jobs />} />
+      <Route path='/jobs' element={<Jobs/>} />
       <Route path='/add-job' element={<AddJob />} />
+      <Route path='/add-job/:id' element={<AddJob />} />
       <Route path='/analytics' element={<Analytics />} />
       <Route path='/profile' element={<Profile />} />
     </Routes>
