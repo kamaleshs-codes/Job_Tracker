@@ -17,7 +17,7 @@ const COLORS = [
 const StatusPieChart = ({ data }) => {
   return (
     <div className="w-full h-96">
-      <h2 className="text-2xl font-semibold mb-6">
+      <h2 className="text-2xl font-semibold">
         Applications by Status
       </h2>
 

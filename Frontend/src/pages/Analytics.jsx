@@ -3,13 +3,14 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import api from "../api/axios";
 import StatusPieChart from "../components/StatusPieChart";
 import { FaExchangeAlt } from "react-icons/fa";
+import CompanyBarChart from "../components/CompanyBarChart";
 
 const Analytics = () => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    fetchJobs()
-  },[]);
+    fetchJobs();
+  }, []);
 
   const fetchJobs = async () => {
     try {
@@ -19,7 +20,6 @@ const Analytics = () => {
       console.error(error);
     }
   };
-  
 
   // Analytics Data
   const statusData = [
@@ -41,8 +41,16 @@ const Analytics = () => {
     },
   ];
 
+  const companyMap = {};
 
+  jobs.forEach((job) => {
+    companyMap[job.company] = (companyMap[job.company] || 0) + 1;
+  });
 
+  const companyData = Object.entries(companyMap).map(([company, count]) => ({
+    company,
+    applications: count,
+  }));
 
   return (
     <DashboardLayout>
@@ -57,8 +65,11 @@ const Analytics = () => {
           </p>
         </div>
 
-        <div className='bg-white rounded-xl shadow-md p-6'>
-          <StatusPieChart data={statusData} />
+        <div className='bg-white rounded-xl shadow-md pb-10 p-4'>
+          <StatusPieChart data={statusData}  />
+        </div>
+        <div className='bg-white rounded-xl shadow-md p-4 mt-8 pb-10'>
+          <CompanyBarChart data={companyData}></CompanyBarChart>
         </div>
       </div>
     </DashboardLayout>

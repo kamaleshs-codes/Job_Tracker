@@ -1,9 +1,13 @@
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
+
 require("dotenv").config();
 
 const express = require("express");
 const connectDB = require("./config/db");
 const Job = require("./models/job");
 const jobRoutes = require("./routes/jobRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 const cors = require("cors");
 
 const app = express();
@@ -18,6 +22,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/jobs", jobRoutes);
+
+app.use("/api/profile", profileRoutes);
 
 const PORT = process.env.PORT || 5000;
 
