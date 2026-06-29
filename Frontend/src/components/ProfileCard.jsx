@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const ProfileCard = () => {
   const [profile, setProfile] = useState({
@@ -7,8 +8,23 @@ const ProfileCard = () => {
     about: "",
     skills: "",
     experience: "",
-    resume: null,
+    resume: "",
   });
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async (req, res) => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/profile");
+      if (res.data) {
+        setProfile(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleChange = (e) => {
     setProfile({
@@ -20,13 +36,19 @@ const ProfileCard = () => {
   const handleResumeChange = (e) => {
     setProfile({
       ...profile,
-      resume: e.target.files[0],
+      resume: profile.resume.name,
     });
+    console.log(profile.resume);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(profile);
+    try {
+      await axios.put("http://localhost:5000/api/profile", profile);
+      alert("Profile Updated");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

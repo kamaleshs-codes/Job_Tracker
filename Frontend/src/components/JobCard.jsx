@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const JobCard = ({ company, position, status, location, job, onDelete }) => {
-
   const getStatusColor = () => {
     switch (status) {
       case "Pending":
@@ -36,9 +35,9 @@ const JobCard = ({ company, position, status, location, job, onDelete }) => {
 
       <div className='flex gap-3 mt-4'>
         <Link to={`/add-job/${job._id}`}>
-        <button className='bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600'>
-          Edit
-        </button>
+          <button className='bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600'>
+            Edit
+          </button>
         </Link>
         <button
           className='bg-red-500 text-white px-4 py-2 rounded hover:be-red-600'
