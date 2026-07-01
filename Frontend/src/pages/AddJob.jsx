@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../layout/DashboardLayout";
 import api from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 

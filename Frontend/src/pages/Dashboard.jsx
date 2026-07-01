@@ -1,4 +1,4 @@
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../layout/DashboardLayout";
 import StatCard from "../components/StatCard";
 import api from "../api/axios";
 import { useEffect, useState } from "react";

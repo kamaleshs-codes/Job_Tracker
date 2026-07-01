@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../layout/DashboardLayout";
 import JobCard from "../components/JobCard";
 import api from "../api/axios";
 

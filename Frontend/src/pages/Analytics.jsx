@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../layout/DashboardLayout";
 import api from "../api/axios";
 import StatusPieChart from "../components/StatusPieChart";
 import { FaExchangeAlt } from "react-icons/fa";
