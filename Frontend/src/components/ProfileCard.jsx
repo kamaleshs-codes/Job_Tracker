@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axios";
 
 const ProfileCard = () => {
   const [profile, setProfile] = useState({
@@ -15,11 +15,19 @@ const ProfileCard = () => {
     fetchProfile();
   }, []);
 
-  const fetchProfile = async (req, res) => {
+  const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profile");
+      const res = await api.get("/profile");
+
       if (res.data) {
-        setProfile(res.data);
+        setProfile({
+          fullName: res.data.fullName || "",
+          email: res.data.email || "",
+          about: res.data.about || "",
+          skills: res.data.skills || "",
+          experience: res.data.experience || "",
+          resume: res.data.resume || "",
+        });
       }
     } catch (error) {
       console.log(error);
@@ -36,18 +44,37 @@ const ProfileCard = () => {
   const handleResumeChange = (e) => {
     setProfile({
       ...profile,
-      resume: profile.resume.name,
+      resume: e.target.files[0],
     });
-    console.log(profile.resume);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await axios.put("http://localhost:5000/api/profile", profile);
-      alert("Profile Updated");
+      const formData = new FormData();
+
+      formData.append("fullName", profile.fullName);
+      formData.append("email", profile.email);
+      formData.append("about", profile.about);
+      formData.append("skills", profile.skills);
+      formData.append("experience", profile.experience);
+
+      if (profile.resume instanceof File) {
+        formData.append("resume", profile.resume);
+      }
+
+      await api.put("/profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert("Profile Updated Successfully");
+      fetchProfile();
     } catch (error) {
       console.log(error);
+      alert("Failed to update profile");
     }
   };
 
@@ -61,6 +88,7 @@ const ProfileCard = () => {
           👤
         </div>
       </div>
+
       <form onSubmit={handleSubmit}>
         {/* Full Name */}
         <div className='mb-5'>
@@ -68,11 +96,11 @@ const ProfileCard = () => {
 
           <input
             type='text'
-            placeholder='Enter your full name'
             name='fullName'
             value={profile.fullName}
             onChange={handleChange}
-            className='w-full border rounded-lg p-3'
+            placeholder='Enter your full name'
+            className='w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
         </div>
 
@@ -82,11 +110,11 @@ const ProfileCard = () => {
 
           <input
             type='email'
-            placeholder='Enter your email'
             name='email'
             value={profile.email}
             onChange={handleChange}
-            className='w-full border rounded-lg p-3'
+            placeholder='Enter your email'
+            className='w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
         </div>
 
@@ -100,10 +128,9 @@ const ProfileCard = () => {
             value={profile.about}
             onChange={handleChange}
             placeholder='Tell something about yourself'
-            className='w-full border rounded-lg p-3'
+            className='w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
         </div>
-
         {/* Skills */}
         <div className='mb-5'>
           <label className='block font-medium mb-2'>Skills</label>
@@ -114,7 +141,7 @@ const ProfileCard = () => {
             value={profile.skills}
             onChange={handleChange}
             placeholder='React, Node.js, MongoDB...'
-            className='w-full border rounded-lg p-3'
+            className='w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
         </div>
 
@@ -128,28 +155,36 @@ const ProfileCard = () => {
             value={profile.experience}
             onChange={handleChange}
             placeholder='Describe your experience'
-            className='w-full border rounded-lg p-3'
+            className='w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
         </div>
 
         {/* Resume */}
         <div className='mb-8'>
-          <label className='block font-medium mb-2'>Resume</label>
+          <label className='block font-medium mb-2'>Resume (PDF)</label>
 
           <input
             type='file'
             accept='.pdf'
-            className='w-full'
             onChange={handleResumeChange}
+            className='w-full border border-gray-300 rounded-lg p-3'
           />
+
+          {/* Display selected/uploaded file */}
           {profile.resume && (
             <p className='text-sm text-gray-600 mt-2'>
-              Selected File: {profile.resume.name}
+              Selected File:{" "}
+              {profile.resume instanceof File
+                ? profile.resume.name
+                : profile.resume.split("/").pop()}
             </p>
           )}
         </div>
 
-        <button className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg'>
+        {/* Save Button */}
+        <button
+          type='submit'
+          className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition'>
           Save Changes
         </button>
       </form>

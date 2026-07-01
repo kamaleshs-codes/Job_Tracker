@@ -1,8 +1,7 @@
-import { useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
 import api from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
-import JobCard from "../components/JobCard";
 
 const AddJob = () => {
   const navigate = useNavigate();
@@ -13,15 +12,9 @@ const AddJob = () => {
     position: "",
     status: "",
     location: "",
+    jobUrl: "",
     notes: "",
   });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   useEffect(() => {
     if (id) {
@@ -32,20 +25,30 @@ const AddJob = () => {
   const fetchJob = async () => {
     try {
       const res = await api.get(`/jobs/${id}`);
+
       setFormData({
-        company: res.data.data.company,
-        position: res.data.data.position,
-        status: res.data.data.status,
-        location: res.data.data.location,
-        notes: res.data.data.notes,
+        company: res.data.data.company || "",
+        position: res.data.data.position || "",
+        status: res.data.data.status || "",
+        location: res.data.data.location || "",
+        jobUrl: res.data.data.jobUrl || "",
+        notes: res.data.data.notes || "",
       });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       if (id) {
         await api.put(`/jobs/${id}`, formData);
@@ -54,25 +57,29 @@ const AddJob = () => {
         await api.post("/jobs", formData);
         alert("Job Added Successfully");
       }
+
       navigate("/jobs");
     } catch (error) {
       console.log(error);
-      alert("Failed to add Job");
+      alert("Failed to save Job");
     }
   };
 
   return (
     <DashboardLayout>
       <div className='max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md'>
-        <h1 className='text-3xl font-bold mb-6'>{id ? "Edit Job": "Add New Job"}</h1>
+        <h1 className='text-3xl font-bold mb-6'>
+          {id ? "Edit Job" : "Add New Job"}
+        </h1>
 
         <form className='space-y-5' onSubmit={handleSubmit}>
           {/* Company */}
           <div>
             <label className='block mb-2 font-medium'>Company</label>
+
             <input
-              name='company'
               type='text'
+              name='company'
               placeholder='Enter company name'
               value={formData.company}
               onChange={handleChange}
@@ -83,12 +90,13 @@ const AddJob = () => {
           {/* Position */}
           <div>
             <label className='block mb-2 font-medium'>Position</label>
+
             <input
+              type='text'
               name='position'
+              placeholder='Enter position'
               value={formData.position}
               onChange={handleChange}
-              type='text'
-              placeholder='Enter position'
               className='w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
           </div>
@@ -96,12 +104,13 @@ const AddJob = () => {
           {/* Location */}
           <div>
             <label className='block mb-2 font-medium'>Location</label>
+
             <input
+              type='text'
               name='location'
+              placeholder='Enter location'
               value={formData.location}
               onChange={handleChange}
-              type='text'
-              placeholder='Enter location'
               className='w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
           </div>
@@ -109,11 +118,12 @@ const AddJob = () => {
           {/* Status */}
           <div>
             <label className='block mb-2 font-medium'>Status</label>
+
             <select
-              className='w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
               name='status'
               value={formData.status}
-              onChange={handleChange}>
+              onChange={handleChange}
+              className='w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'>
               <option value=''>Select Status</option>
               <option value='Pending'>Pending</option>
               <option value='Interview'>Interview</option>
@@ -125,9 +135,13 @@ const AddJob = () => {
           {/* Job URL */}
           <div>
             <label className='block mb-2 font-medium'>Job URL</label>
+
             <input
               type='url'
+              name='jobUrl'
               placeholder='https://company.com/jobs'
+              value={formData.jobUrl}
+              onChange={handleChange}
               className='w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
           </div>
@@ -135,8 +149,12 @@ const AddJob = () => {
           {/* Notes */}
           <div>
             <label className='block mb-2 font-medium'>Notes</label>
+
             <textarea
               rows='4'
+              name='notes'
+              value={formData.notes}
+              onChange={handleChange}
               placeholder='Additional notes...'
               className='w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
@@ -146,7 +164,7 @@ const AddJob = () => {
           <button
             type='submit'
             className='bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition'>
-            {id ? "Update": "Add Job"}
+            {id ? "Update Job" : "Add Job"}
           </button>
         </form>
       </div>
