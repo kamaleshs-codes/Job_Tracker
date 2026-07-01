@@ -66,7 +66,7 @@ const Analytics = () => {
         </div>
 
         <div className='bg-white rounded-xl shadow-md pb-10 p-4'>
-          <StatusPieChart data={statusData}  />
+          <StatusPieChart data={statusData} />
         </div>
         <div className='bg-white rounded-xl shadow-md p-4 mt-8 pb-10'>
           <CompanyBarChart data={companyData}></CompanyBarChart>
