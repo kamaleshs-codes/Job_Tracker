@@ -5,9 +5,9 @@ require("dotenv").config();
 
 const express = require("express");
 const connectDB = require("./config/db");
-const Job = require("./models/job");
 const jobRoutes = require("./routes/jobRoutes");
 const profileRoutes = require("./routes/profileRoutes");
+const authRoutes = require("./routes/authRoutes.js");
 const cors = require("cors");
 
 const app = express();
@@ -24,6 +24,8 @@ app.get("/", (req, res) => {
 app.use("/api/jobs", jobRoutes);
 
 app.use("/api/profile", profileRoutes);
+
+app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 

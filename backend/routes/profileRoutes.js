@@ -5,9 +5,10 @@ const {
 } = require("../controllers/profileController");
 const router = express.Router();
 const upload = require("../middleware/upload");
+const protect = require("../middleware/authMiddleware");
 
-router.get("/", getProfile);
+router.get("/", protect, getProfile);
 
-router.put("/", upload.single("resume"), updateProfile);
+router.put("/", protect, upload.single("resume"), updateProfile);
 
 module.exports = router;
