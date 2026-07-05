@@ -19,33 +19,35 @@ const ProfileCard = () => {
     try {
       const res = await api.get("/profile");
 
-      if (res.data) {
+      if (res.data.success && res.data.profile) {
+        const data = res.data.profile;
+
         setProfile({
-          fullName: res.data.fullName || "",
-          email: res.data.email || "",
-          about: res.data.about || "",
-          skills: res.data.skills || "",
-          experience: res.data.experience || "",
-          resume: res.data.resume || "",
+          fullName: data.fullName || "",
+          email: data.email || "",
+          about: data.about || "",
+          skills: data.skills || "",
+          experience: data.experience || "",
+          resume: data.resume || "",
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching profile:", error);
     }
   };
 
   const handleChange = (e) => {
-    setProfile({
-      ...profile,
+    setProfile((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const handleResumeChange = (e) => {
-    setProfile({
-      ...profile,
+    setProfile((prev) => ({
+      ...prev,
       resume: e.target.files[0],
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -71,6 +73,8 @@ const ProfileCard = () => {
       });
 
       alert("Profile Updated Successfully");
+
+      // Reload latest profile from database
       fetchProfile();
     } catch (error) {
       console.log(error);
@@ -131,6 +135,7 @@ const ProfileCard = () => {
             className='w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
         </div>
+
         {/* Skills */}
         <div className='mb-5'>
           <label className='block font-medium mb-2'>Skills</label>
@@ -170,7 +175,6 @@ const ProfileCard = () => {
             className='w-full border border-gray-300 rounded-lg p-3'
           />
 
-          {/* Display selected/uploaded file */}
           {profile.resume && (
             <p className='text-sm text-gray-600 mt-2'>
               Selected File:{" "}
@@ -181,7 +185,6 @@ const ProfileCard = () => {
           )}
         </div>
 
-        {/* Save Button */}
         <button
           type='submit'
           className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition'>
