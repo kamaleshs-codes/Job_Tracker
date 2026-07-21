@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import Dashboard from "../pages/Dashboard";
 import Jobs from "../pages/Jobs";
 import AddJob from "../pages/AddJob";
 import Analytics from "../pages/Analytics";
 import Profile from "../pages/Profile";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Home from "../pages/Home";
+import SearchJobs from "../pages/SearchJobs";
 
 function AppRoutes() {
   return (
@@ -16,10 +16,10 @@ function AppRoutes() {
       <Route path='/register' element={<Register />} />
       <Route path='/' element={<Home />} />
       <Route
-        path='/dashboard'
+        path='/searchjobs'
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <SearchJobs />
           </ProtectedRoute>
         }
       />

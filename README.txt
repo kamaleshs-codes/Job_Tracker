@@ -1,3 +1,5 @@
+---JOBTRACK-PRO
+
 # Job Tracker - Full Stack Job Application Management System
 
 A modern full-stack Job Application Tracker built with React.js, Node.js, Express.js, MongoDB, and JWT Authentication. It helps users organize, track, and manage their job applications efficiently through a clean, responsive dashboard.

@@ -7,7 +7,7 @@ const Navbar = ({ setSidebarOpen }) => {
   const location = useLocation();
 
   const pageTitles = {
-    "/dashboard": "Dashboard",
+    "/searchjobs": "Search Jobs",
     "/jobs": "Jobs",
     "/add-job": "Add Job",
     "/analytics": "Analytics",

@@ -14,8 +14,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   const links = [
     {
-      name: "Dashboard",
-      path: "/dashboard",
+      name: "Search Jobs",
+      path: "/searchjobs",
       icon: <FaChartPie />,
     },
     {
