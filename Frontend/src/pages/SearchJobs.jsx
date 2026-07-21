@@ -1,5 +1,5 @@
-import DashboardLayout from "../layout/DashboardLayout";
 import { useAuth } from "../context/AuthContext";
+import AppLayout from "../layout/AppLayout";
 
 const dummyJobs = [
   {
@@ -29,7 +29,7 @@ const SearchJobs = () => {
   const { user } = useAuth();
 
   return (
-    <DashboardLayout>
+    <AppLayout>
       {/* Hero Section */}
       <div className='mb-10'>
         <h1 className='text-3xl font-bold text-slate-800'>
@@ -42,10 +42,10 @@ const SearchJobs = () => {
       </div>
 
       {/* Search Section */}
-      <div className='bg-white rounded-xl shadow-md p-6 mb-10'>
-        <h2 className='text-2xl font-semibold mb-6'>Search Jobs</h2>
 
-        <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
+      <div>
+        <h2 className='text-2xl font-semibold mb-6'>Search</h2>
+        <div className='grid grid-cols-1 lg:grid-cols-4 gap-4 bg-white rounded-xl shadow-md p-6 mb-10'>
           <input
             type='text'
             placeholder='Job title or keyword'
@@ -111,7 +111,7 @@ const SearchJobs = () => {
           ))}
         </div>
       </div>
-    </DashboardLayout>
+    </AppLayout>
   );
 };
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "../layout/DashboardLayout";
 import api from "../api/axios";
 import StatusPieChart from "../components/StatusPieChart";
 import { FaExchangeAlt } from "react-icons/fa";
 import CompanyBarChart from "../components/CompanyBarChart";
+import AppLayout from "../layout/AppLayout";
 
 const Analytics = () => {
   const [jobs, setJobs] = useState([]);
@@ -53,7 +53,7 @@ const Analytics = () => {
   }));
 
   return (
-    <DashboardLayout>
+    <AppLayout>
       <div className='space-y-8'>
         <div>
           <h1 className='text-3xl font-bold text-gray-800'>
@@ -72,7 +72,7 @@ const Analytics = () => {
           <CompanyBarChart data={companyData}></CompanyBarChart>
         </div>
       </div>
-    </DashboardLayout>
+    </AppLayout>
   );
 };
 

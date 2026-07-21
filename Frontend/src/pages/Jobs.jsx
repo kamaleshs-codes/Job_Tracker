@@ -1,37 +1,34 @@
-import { useState,useEffect } from "react";
-import DashboardLayout from "../layout/DashboardLayout";
+import { useState, useEffect } from "react";
 import JobCard from "../components/JobCard";
 import api from "../api/axios";
-
+import AppLayout from "../layout/AppLayout";
 
 const Jobs = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [jobs, setJobs] = useState([])
+  const [jobs, setJobs] = useState([]);
 
-  useEffect(()=>{
-    fetchJobs()
-  },[])
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
-  const fetchJobs = async () =>{
-    try{
-      const res = await api.get("/jobs")
-      setJobs(res.data.data)
+  const fetchJobs = async () => {
+    try {
+      const res = await api.get("/jobs");
+      setJobs(res.data.data);
+    } catch (error) {
+      console.log(error);
     }
-    catch(error){
-      console.log(error)
-    }
-  }
+  };
 
-  const handleDelete = async (id)=>{
-    try{
-      await api.delete(`/jobs/${id}`)
-      fetchJobs()
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/jobs/${id}`);
+      fetchJobs();
+    } catch (error) {
+      console.log(error);
     }
-    catch(error){
-      console.log(error)
-    }
-  }
+  };
 
   const filteredJobs = jobs.filter((job) => {
     const matchesSearch =
@@ -44,7 +41,7 @@ const Jobs = () => {
   });
 
   return (
-    <DashboardLayout>
+    <AppLayout>
       <div>
         <h1 className='text-3xl font-bold mb-6'>My Applications</h1>
 
@@ -96,7 +93,7 @@ const Jobs = () => {
           </div>
         )}
       </div>
-    </DashboardLayout>
+    </AppLayout>
   );
 };
 

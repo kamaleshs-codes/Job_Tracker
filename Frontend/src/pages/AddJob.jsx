@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import DashboardLayout from "../layout/DashboardLayout";
 import api from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
+import AppLayout from "../layout/AppLayout";
 
 const AddJob = () => {
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ const AddJob = () => {
   };
 
   return (
-    <DashboardLayout>
+    <AppLayout>
       <div className='max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md'>
         <h1 className='text-3xl font-bold mb-6'>
           {id ? "Edit Job" : "Add New Job"}
@@ -168,7 +168,7 @@ const AddJob = () => {
           </button>
         </form>
       </div>
-    </DashboardLayout>
+    </AppLayout>
   );
 };
 

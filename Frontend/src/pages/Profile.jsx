@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
-import DashboardLayout from "../layout/DashboardLayout";
-import ProtectedRoute from "../components/ProtectedRoute";
+import AppLayout from "../layout/AppLayout";
 
 function Profile() {
   return (
-    <DashboardLayout>
+    <AppLayout>
       <div className='p-6 bg-gray-100 min-h-screen'>
-          <ProfileCard />
+        <ProfileCard />
       </div>
-    </DashboardLayout>
+    </AppLayout>
   );
 }
 
